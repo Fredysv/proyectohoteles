@@ -1,5 +1,15 @@
 #DEFINICION DE SUBPROCESOS
 
+hotel_puntarenas = []
+hotel_sancarlos = []
+hotel_guanacaste = []
+
+for i in range(4):
+    hotel_puntarenas.append("")
+for i in range(4):
+    hotel_puntarenas.append("")
+for i in range(4):
+    hotel_puntarenas.append("")
 
 #subproceso para verificar numero
 def verificarnum(a,b,text):
@@ -13,6 +23,18 @@ def verificarnum(a,b,text):
             num = 0
 #fin subproceso para verificar numeros
 
+#subproceso de guardar hotel en variable
+def save_hotel(idhotel,hab,clientxhab,clientmax,):
+    global hotel_puntarenas
+    global hotel_sancarlos
+    global hotel_guanacaste
+    if idhotel == 1:
+        hotel_puntarenas[1] = idhotel
+        hotel_puntarenas[2] = hab
+        hotel_puntarenas[3] = clientxhab
+        hotel_puntarenas[4] = clientmax
+
+
 #Empieza proceso de registrar hotel
 def reg_hotel():
     #Los 3 hoteles disponibles
@@ -20,23 +42,25 @@ def reg_hotel():
         "\nHotel número 2: San Carlos",
         "\nHotel número 3: Guanacaste")
     #solicitamos el nombre del hotel a trabajar
-    hotel_sel = verificarnum(1,3,"Ingrese el número del hotel: ")
-    if hotel_sel == 1:
+    idhotel = verificarnum(1,3,"Ingrese el número del hotel: ")
+    if idhotel == 1:
         hotel = str("Puntarenas")
-    elif hotel_sel == 2:
+    elif idhotel == 2:
         hotel = str("San Carlos")
-    elif hotel_sel ==3:
+    elif idhotel ==3:
         hotel = str("Guanacaste")
     print("Usted seleccionó el Hotel El Descanso "+hotel+": ")
-    capacidadmax = int(input("Digite la capacidad maxima del hotel El Descanso "+hotel+": "))
-    maxhabitaciones = int(input("Digite la cantidad de habitaciones que posee el hotel El Descanso "+hotel+": "))
-    aforo = float(input("Indique el porcentaje de aforo aprobado para el hotel El Descanso "+hotel+": "))
-    huespedesmax = int(capacidadmax / maxhabitaciones)
-    capacidaddisp = int(capacidadmax * (aforo*0.01))
-    habitacionesdisp = int(capacidaddisp / huespedesmax)
-    print("\nEl hotel: El descanso",hotel,"cuenta con:"
-        "\nEspacios habilitados: ",capacidaddisp,
-        "\nHabitaciones Disponibles: ",habitacionesdisp)
+    #Pedimos los datos necesarios del
+    hab = int(input("Digite la cantidad de habitaciones: ")) # Total de habitaciones
+    clientxhab = int(input("Digite la cantidad de personas por habitación: ")) #Huespedes por habitacion
+    aforo = float(input("Indique el porcentaje de aforo aprobado: ")) #aforo aprobado
+    clientmax = clientxhab * hab *(aforo*0.01) # capacidad maxima de huespedes
+    clients = 0 # cantidad de clientes actuales 
+    habits = 0 # cantidad de habitaciones ocupadas
+    
+    save_hotel(idhotel,hab,clientxhab,clientmax,clients, habits)
+    
+
 #Termina registro hotel
 
 #Empieza proceso de registro del Cliente
@@ -103,10 +127,9 @@ print("Bienvenido a Hoteles el El Descanso")
 #primero registramos al menos un hotel
 reg_hotel()
 
-
 exit = 0
 
-#Menu Princiapl
+#Menu Principal
 while exit == 0:
     
     print(  "\nMenu",

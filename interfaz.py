@@ -1,0 +1,17 @@
+from tkinter import *
+raiz=Tk()
+raiz.title("Proyecto Hoteles")
+raiz.geometry("650x350")
+raiz.config(bg="#d89fca")
+frame1=Frame()
+frame1.pack()
+label1=Label(frame1, text="Hoteles", cursor="hand2", font=("Comic Sans MS",18))
+label1.pack()
+frame2=Frame()
+frame2.pack()
+label2=Label(frame2, text="Clientes", cursor="pirate", font=("Comic Sans MS",18))
+label2.pack()
+#frame2.config(bg="red")
+#frame2.config(width="600", height="300")
+#frame2.config(cursor="pirate")
+raiz.mainloop
