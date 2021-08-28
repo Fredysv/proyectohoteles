@@ -81,9 +81,11 @@ def reg_hotel():
     for i in range(6):
         hotel.append("")
     #Los 3 hoteles disponibles
-    print ("Hotel número 1: Puntarenas",
-        "\nHotel número 2: San Carlos",
-        "\nHotel número 3: Guanacaste")
+    print (   "----------------------------"
+            "\n|Hotel número 1: Puntarenas|",
+            "\n|Hotel número 2: San Carlos|",
+            "\n|Hotel número 3: Guanacaste|"
+            "\n----------------------------")
     #solicitamos el nombre del hotel a trabajar
     hotel[0] = verificarnum(1,3,"Ingrese el número del hotel: ") #id del hotel
     if hotel[0] == 1:
@@ -146,10 +148,9 @@ def reg_client():
     cliente[7] = str(input("Digite su edad:")) # Edad
     cliente[8] = str(input("Elija su metodo de pago (efectivo, transferencia, tarjeta de crédito):")) # Metodo de pago
     cliente[9] = int(input("Cuantas personas lo van a acompañar?: ")) # Numero de acompañantes
-
     
     acomp = []  # Informacion de acompañantes
-    #Guardamos la informacion de los acompañantes en un vector 
+    #Guardamos la informacion de los acompañantes en un vector
     for i in range(cliente[9]):
         acomp.append([""]*3)
     for i in range(cliente[9]):
@@ -165,14 +166,16 @@ def reg_client():
 def reg_reserv_hospe(cliente):
     cant_dias = int(input("Cuantas días se va/n a hospedar?: "))
     i=1
-    print("Formato para los días que se va a quedar:",
-        "\nLunes = 1",
-        "\nMartes = 2",
-        "\nMiércoles = 3",
-        "\nJueves = 4",
-        "\nViernes = 5",
-        "\nSábado = 6",
-        "\nDomingo = 7")
+    print("----------------------------------------------",
+        "\n| Formato para los días que se va a quedar:  |",
+        "\n| Lunes = 1                                  |",
+        "\n| Martes = 2                                 |",
+        "\n| Miércoles = 3                              |",
+        "\n| Jueves = 4                                 |",
+        "\n| Viernes = 5                                |",
+        "\n| Sábado = 6                                 |",
+        "\n| Domingo = 7                                |",
+        "\n----------------------------------------------")
     diasfinde = 0
     diasentre = 0
     for i in range(i,cant_dias+1):
@@ -191,7 +194,7 @@ def reg_reserv_hospe(cliente):
     print ("El precio total por dias selecionados es de: ",precio_tot)
 #Termina Proceso de reservaciones de hospedaje
 
-#Empieza reservacion rest
+#variables de restaurante
 rest1 = []
 for i in range(7):
     rest1.append([0]*10)
@@ -201,14 +204,73 @@ for i in range(7):
 rest3 = []
 for i in range(7):
     rest3.append([0]*10)
+
+#empieza proceso agarrar restaurantes existentes
+def get_rest():
+    global rest1
+    global rest2
+    global rest3
+    if os.path.isfile('rest1.txt') and os.path.isfile('rest2.txt') and os.path.isfile('rest3.txt'):
+        file=open('rest1.txt', "r")
+        rest1 = [(line.strip()).split() for line in file]
+        file.close()
+        file=open('rest2.txt', "r")
+        rest2 = [(line.strip()).split() for line in file]
+        file.close()
+        file=open('rest3.txt', "r")
+        rest3 = [(line.strip()).split() for line in file]
+        file.close()
+        for i in range(7):
+            for j in range(10):
+                rest1[i][j] = int(rest1[i][j])
+        for i in range(7):
+            for j in range(10):
+                rest2[i][j] = int(rest2[i][j])
+        for i in range(7):
+            for j in range(10):
+                rest3[i][j] = int(rest3[i][j])
+#Termina proceso para agarrar un hotel ya existente
+
+#empieza subproceso para guardar restaurantes
+def save_rest(a,b,c):
+    global rest1
+    global rest2
+    global rest3
+    rest_1 = a
+    rest_2 = b
+    rest_3 = c
+    file=open('rest1.txt', "w")
+    for row in rest_1:
+        for rest_1 in row:
+            file.write(compile_row_string(rest_1)+' ')
+        file.write("\n")
+    file.close()
+    file=open('rest2.txt', "w")
+    for row in rest_2:
+        for rest_2 in row:
+            file.write(compile_row_string(rest_2)+' ')
+        file.write("\n")
+    file.close()
+    file=open('rest3.txt', "w")
+    for row in rest_3:
+        for rest_3 in row:
+            file.write(compile_row_string(rest_3)+' ')
+        file.write("\n")
+    file.close()
+#termina subproceso para guardar restaurantes
+
+#Empieza reservacion rest
+
 def reserv_rest():
     global rest1
     global rest2
     global rest3
     #Los 3 restaurante disponibles
-    print ("Restaurante número 1: Puntarenas",
-            "\nRestaurante número 2: San Carlos",
-        "\nRestaurante número 3: Guanacaste")
+    print (   "----------------------------"
+            "\n|Hotel número 1: Puntarenas|",
+            "\n|Hotel número 2: San Carlos|",
+            "\n|Hotel número 3: Guanacaste|"
+            "\n----------------------------")
     #solicitamos el nombre del restaurante a trabajar
     rest = verificarnum(1,3,"Ingrese el número del restaurante: ") #id del restaurante
     if rest == 1:
@@ -218,33 +280,38 @@ def reserv_rest():
     elif rest ==3:
         restname = str("Guanacaste")
     print("Usted seleccionó el restaurante El Descanso "+restname+": ")
-    print("Formato para los días que va a reservar:",
-        "\nLunes = 1",
-        "\nMartes = 2",
-        "\nMiércoles = 3",
-        "\nJueves = 4",
-        "\nViernes = 5",
-        "\nSábado = 6",
-        "\nDomingo = 7")
+    print("------------------------------------------------",
+        "\n| Formato para los días que va a reservar      |",
+        "\n| Lunes = 1                                    |",
+        "\n| Martes = 2                                   |",
+        "\n| Miércoles = 3                                |",
+        "\n| Jueves = 4                                   |",
+        "\n| Viernes = 5                                  |",
+        "\n| Sábado = 6                                   |",
+        "\n| Domingo =  7                                 |",
+        "\n------------------------------------------------")
     dia = (int(input("Ingrese el día a reservar: ")))-1
-    print("Formato para los días que va a reservar:",
-        "\nDesayuno",
-        "\n7:00am = 1",
-        "\n8:00am = 2",
-        "\n9:00am = 3",
-        "\n10:00am = 4",
-        "\nAlmuerzo",
-        "\n12:00md = 5",
-        "\n1:00pm = 6",
-        "\n2:00pm = 7"
-        "\nCena",
-        "\n7:00pm = 8"
-        "\n8:00pm = 9"
-        "\n9:00pm = 10")
+    print("---------------------------------------------"
+        "\n| Formato para las horas que va a reservar: |",
+        "\n| Desayuno                                  |",
+        "\n| 7:00am = 1                                |",
+        "\n| 8:00am = 2                                |",
+        "\n| 9:00am = 3                                |",
+        "\n| 10:00am = 4                               |",
+        "\n| Almuerzo                                  |",
+        "\n| 12:00md = 5                               |",
+        "\n| 1:00pm = 6                                |",
+        "\n| 2:00pm = 7                                |"
+        "\n| Cena                                      |",
+        "\n| 7:00pm = 8                                |"
+        "\n| 8:00pm = 9                                |",
+        "\n| 9:00pm = 10                               |",
+        "\n---------------------------------------------")
     horario = (int(input("Ingrese el horario a reservar: ")))-1
     aforo = float(input("Indique el porcentaje de aforo aprobado: ")) #aforo aprobado
     maximo = 100 * (aforo*0.01)
     cantidad = int(input("Ingrese la cantidad de personas para el día a reservar: "))
+    get_rest()
     if rest == 1:
         if rest1[dia][horario]+cantidad > maximo:
             print("Su reservación excede el limite del aforo permitido, porfavor elija otro horario")
@@ -260,9 +327,7 @@ def reserv_rest():
             print("Su reservación excede el limite del aforo permitido, porfavor elija otro horario")
         else:
             rest3[dia][horario] += cantidad
-    print(rest1)
-    print(rest2)
-    print(rest3)
+    save_rest(rest1,rest2,rest3)
 #Termina Proceso de reservaciones de restaurante
 
 #Empieza Check In y Check Out
@@ -291,9 +356,11 @@ def check():
             hotel3.append([0]*5)
 
     #Los 3 Hotel disponibles
-    print ("Hotel número 1: Puntarenas",
-            "\nHotel número 2: San Carlos",
-            "\nHotel número 3: Guanacaste")
+    print (   "----------------------------"
+            "\n|Hotel número 1: Puntarenas|",
+            "\n|Hotel número 2: San Carlos|",
+            "\n|Hotel número 3: Guanacaste|"
+            "\n----------------------------")
     #solicitamos el nombre del Hotel a trabajar
     hot = verificarnum(1,3,"Ingrese el número del Hotel: ") #id del Hotel
     if hot == 1:
@@ -303,29 +370,33 @@ def check():
     elif hot ==3:
         hotelname = str("Guanacaste")
     print("Usted seleccionó el Hotel El Descanso "+hotelname+": ")
-    print("Formato para los días Check In o Check Out:",
-        "\nLunes = 1",
-        "\nMartes = 2",
-        "\nMiércoles = 3",
-        "\nJueves = 4",
-        "\nViernes = 5",
-        "\nSábado = 6",
-        "\nDomingo = 7")
+    print("------------------------------------------------",
+        "\n| Formato para los días Check In o Check Out:  |",
+        "\n| Lunes = 1                                    |",
+        "\n| Martes = 2                                   |",
+        "\n| Miércoles = 3                                |",
+        "\n| Jueves = 4                                   |",
+        "\n| Viernes = 5                                  |",
+        "\n| Sábado = 6                                   |",
+        "\n| Domingo =  7                                 |",
+        "\n------------------------------------------------")
     dia = (int(input("Ingrese el día de Check In o Check Out: ")))-1
-    print("Formato para los horarios de Check In o Check Out: ",
-        "\nCheck In",
-        "\n2:00pm = 1",
-        "\n2:30pm = 2",
-        "\n3:00pm = 3",
-        "\n3:30pm = 4",
-        "\n4:00pm = 5",
-        "\n4:30pm = 6",
-        "\nCheck Out",
-        "\n11:30am = 1",
-        "\n12:00pm = 2",
-        "\n12:30pm = 3",
-        "\n1:00pm = 4",
-        "\n1:30pm = 5",)
+    print("----------------------------------------------------------"
+        "\n| Formato para los horarios de Check In o Check Out:     |",
+        "\n| Check In                                               |",
+        "\n| 2:00pm = 1                                             |",
+        "\n| 2:30pm = 2                                             |",
+        "\n| 3:00pm = 3                                             |",
+        "\n| 3:30pm = 4                                             |",
+        "\n| 4:00pm = 5                                             |",
+        "\n| 4:30pm = 6                                             |",
+        "\n| Check Out                                              |",
+        "\n| 11:30am = 1                                            |",
+        "\n| 12:00pm = 2                                            |",
+        "\n| 12:30pm = 3                                            |",
+        "\n| 1:00pm = 4                                             |",
+        "\n| 1:30pm = 5                                             |",
+        "\n----------------------------------------------------------")
     horario = (int(input("Ingrese el horario : ")))-1
     maximo = 20
     cantidad = 1
@@ -360,20 +431,22 @@ if os.path.isfile('Hotel_puntarenas.txt') or os.path.isfile('Hotel_sancarlos.txt
     get_hotel()
 else:
     reg_hotel()
-
 exit = 0
 #Menu Principal
 while exit == 0:
     
-    print(  "\nMenu",
-            "\nHotel Selecionado actualmente= {}".format(Hotel_name),
-            "\n1 = Seleccionar otro hotel",
-            "\n2 = Sobreescribir Hotel o añadir otro",
-            "\n3 = Registro de Nuevo Cliente",
-            "\n4 = Reservacion restaurante",
-            "\n5 = Check in - Check ",
-            "\n6 = Salir")
-    option = verificarnum(1,5,"Seleccione un numero de una opcion: ")
+    print("------------------------------------------------",
+        "\n| Menu                                         |",                                       
+        "\n  Hotel Selecionado actualmente= {}            ".format(Hotel_name),
+        "\n| 1 = Seleccionar otro hotel                   |",
+        "\n| 2 = Sobreescribir Hotel o añadir otro        |",
+        "\n| 3 = Registro de Nuevo Cliente                |",
+        "\n| 4 = Reservacion restaurante                  |",
+        "\n| 5 = Check in - Check                         |",
+        "\n| 6 = Salir                                    |",
+        "\n------------------------------------------------")
+
+    option = verificarnum(1,6,"Seleccione un numero de una opcion: ")
     if option == 1:
         get_hotel()
     elif option == 2:
